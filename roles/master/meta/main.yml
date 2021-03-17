@@ -1,0 +1,4 @@
+---
+
+dependencies:
+  - rockaut.k3s.base

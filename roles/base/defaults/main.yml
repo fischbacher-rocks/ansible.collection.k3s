@@ -1,0 +1,7 @@
+---
+
+k3s_systemd_servicefile: /etc/systemd/system/k3s.service
+k3s_systemd_envfile: /etc/systemd/system/k3s.service.env
+k3s_token_file: /etc/rancher/k3s/token.file
+
+k3s_systemd_server_adds: 

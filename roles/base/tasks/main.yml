@@ -1,0 +1,38 @@
+---
+
+- name: create config dir
+  file:
+    path: /etc/rancher/k3s
+    state: directory
+
+- name: write token file
+  copy:
+    dest: /etc/rancher/k3s/token.file
+    content: "{{ k3s_token }}"
+
+- name: activate modules
+  lineinfile:
+    path: /etc/modules-load.d/modules.conf
+    line: "{{ item }}"
+  with_list:
+    - "overlay"
+    - "br_netfilter"
+    - "bridge"
+
+- name: activate sysctl features
+  notify: reload sysctl
+  lineinfile:
+    path: /etc/sysctl.conf
+    line: "{{ item.line }}"
+    regexp: "{{ item.regexp | default(omit) }}"
+  with_list:
+    - regexp: '^net\.ipv4\.ip_nonlocal_bind'
+      line: 'net.ipv4.ip_nonlocal_bind=1'
+    - line: 'net.bridge.bridge-nf-call-ip6tables=1'
+    - line: 'net.ipv4.ip_forward=1'
+    - line: 'net.bridge.bridge-nf-call-iptables=1'
+
+- name: create registries file
+  copy:
+    dest: /etc/rancher/k3s/registries.yaml
+    content: "{{ k3s_registries }}"
