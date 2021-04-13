@@ -1,4 +1,5 @@
 ---
 
 dependencies:
+  - rockaut.k3s.download
   - rockaut.k3s.base

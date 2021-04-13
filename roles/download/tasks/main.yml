@@ -1,0 +1,9 @@
+---
+
+- get_url:
+    url: "https://get.k3s.io"
+    dest: /tmp/k3s.install.sh
+
+- shell:
+    cmd: "INSTALL_K3S_SKIP_ENABLE=true INSTALL_K3S_SKIP_START=true /bin/sh /tmp/k3s.install.sh"
+  become: yes
